@@ -1,3 +1,31 @@
 * {
+  margin: 0;
+  padding: 0;
     font-family: Roboto, sans-serif;  
+  }
+  .secondblock {
+      display:block;
+      width:50%;
+     height:50%;
+     padding-top:10%
+     }
+
+     .firstText {
+      font-family:"Roboto";
+      font-size:24px;
+      margin-top:20px ;
+      font-family: Roboto, sans-serif; 
+    
+    }
+
+  @media only screen and (max-width:1024px){
+    .secondblock {
+      display:none;
+    }
+    
+    .firstText{
+      font-size:14px;
+      margin-top:10px ;
+    }
+
   }

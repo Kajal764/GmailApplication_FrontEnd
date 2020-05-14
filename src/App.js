@@ -1,14 +1,12 @@
 import React from 'react';
 import './App.css';
-//import CreateAccount from './components/createAccount';
-import UserInfo from '../src/components/userInfo'
 import './css/createAccount.css';
-// import Pw from '../src/components/pw'
+import CreateAccount from './components/createAccount'
+
 function App() {
   return (
     <div>
-    {/* <CreateAccount/> */}
-    <UserInfo/>
+       <CreateAccount/>
    
     </div>
   );
