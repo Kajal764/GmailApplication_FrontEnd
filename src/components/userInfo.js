@@ -9,9 +9,9 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import InputLabel from "@material-ui/core/InputLabel";
 import Button from "@material-ui/core/Button";
-import IconButton from '@material-ui/core/IconButton';
-import Visibility from '@material-ui/icons/Visibility';
-import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import IconButton from "@material-ui/core/IconButton";
+import Visibility from "@material-ui/icons/Visibility";
+import VisibilityOff from "@material-ui/icons/VisibilityOff";
 
 const styles = (theme) => ({
   root: {
@@ -22,8 +22,10 @@ const styles = (theme) => ({
 
   textField: {
     width: "100%",
+    
+    
   },
-
+ 
   usernameMsg: {
     color: "blue",
     marginBottom: "7%",
@@ -35,7 +37,17 @@ const styles = (theme) => ({
   lastdiv: {
     marginTop: "10%",
   },
+
+
 });
+
+const errors = {
+  firstName: "",
+  lastName: "",
+  emailId: "",
+  password: "",
+  confirmPw: "",
+};
 
 class customer extends Component {
   state = {
@@ -45,27 +57,24 @@ class customer extends Component {
     emailStatus: false,
     emailhelpertext: "You can use letters,numbers and periods",
     staticText: "@gmail.com",
-    
-      firstName:"",
-      lastName:"",
-      emailId:"",
-      password:"",
-      confirmPw:"",
-      showPassword: false,
-  
+
+    firstName: errors.firstName,
+    lastName: errors.lastName,
+    emailId: errors.emailId,
+    password: errors.password,
+    confirmPw: errors.confirmPw,
+    showPassword: false,
   };
 
-   handleChange = (prop) => (event) => {
-    this.setState({  [prop]: event.target.value });
-    
+  handleChange = (prop) => (event) => {
+    this.setState({ [prop]: event.target.value });
   };
 
-   handleClickShowPassword = () => {
-    this.setState({  showPassword: !this.state.showPassword });
-
+  handleClickShowPassword = () => {
+    this.setState({ showPassword: !this.state.showPassword });
   };
 
-   handleMouseDownPassword = (event) => {
+  handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
 
@@ -92,16 +101,36 @@ class customer extends Component {
     }
   };
 
-  getpassword=(event)=>{
+  getpassword = (event) => {
     this.setState({
-      password:event.target.value
-    })
-  }
-  
+      password: event.target.value,
+    });
+  };
 
-  updateState = event => {
-    this.setState({ [event.target.name]: event.target.value });   
-    };
+  updateState = (event) => {
+    this.setState({ [event.target.name]: event.target.value });
+  };
+
+  validateinfo = (event) => {
+    const regexp = /[A-Za-z]{3,20}$/;
+    if (!regexp.test(this.state.firstName)) {
+      this.setState({ firstName: " " });
+    }
+    if (!regexp.test(this.state.lastName)) {
+      this.setState({ lastName: " " });
+    }
+    if (this.state.emailId.length < 6 || this.state.emailId.length > 30) {
+      this.setState({ emailId: " " });
+    }
+    if (this.state.password.length < 8) {
+      this.setState({ password: " " })}
+    if(this.state.password.length >= 8 && (this.state.password !== this.state.confirmPw))
+      {this.setState({confirmPw:" "})}
+  };
+
+  handleSubmit = (event) => {
+    this.validateinfo(event);
+  };
 
   render() {
     const { classes } = this.props;
@@ -125,9 +154,17 @@ class customer extends Component {
                 variant="outlined"
                 size="small"
                 onChange={this.updateState}
-              
+               
               />
-    
+              {this.state.firstName === " " ? (
+                <FormHelperText
+                  style={{ color: "red" }}
+                  id="outlined-weight-helper-text"
+                  
+                >
+                  enter valid name
+                </FormHelperText>
+              ) : null}
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
@@ -140,15 +177,23 @@ class customer extends Component {
                 size="small"
                 onChange={this.updateState}
               />
+              {this.state.lastName === " " ? (
+                <FormHelperText
+                  style={{ color: "red" }}
+                  id="outlined-weight-helper-text"
+                >
+                  enter valid name
+                </FormHelperText>
+              ) : null}
             </Grid>
+
             <Grid item xs={12}>
               <FormControl
                 className={clsx(classes.margin, classes.textField)}
                 variant="outlined"
                 size="small"
                 margin="normal"
-                name="emailId
-                "
+                name="emailId"
                 value={this.state.emailId}
                 onChange={this.updateState}
               >
@@ -165,6 +210,15 @@ class customer extends Component {
                   }}
                   labelWidth={this.state.emaillabelWidth}
                 />
+                {this.state.emailId === " " ? (
+                  <FormHelperText
+                    style={{ color: "red" }}
+                    id="outlined-weight-helper-text"
+                  >
+                    sorry, your username must be be between 6 and 30 characters
+                    long
+                  </FormHelperText>
+                ) : null}
                 <FormHelperText id="outlined-weight-helper-text">
                   {this.state.emailhelpertext}
                 </FormHelperText>
@@ -180,57 +234,98 @@ class customer extends Component {
 
             <br />
             <Grid item xs={12} sm={6}>
-              <FormControl className={clsx(classes.margin, classes.textField)} variant="outlined" size="small">
-          <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
-          <OutlinedInput
-            id="outlined-adornment-password"
-            type={this.state.showPassword ? 'text' : 'password'}
-            value={this.state.password}
-            onChange={this.handleChange('password')}
-            endAdornment={
-              <InputAdornment position="end">
-                <IconButton
-                  aria-label="toggle password visibility"
-                  onClick={this.handleClickShowPassword}
-                  onMouseDown={this.handleMouseDownPassword}
-                  edge="end"
+              <FormControl
+                className={clsx(classes.margin, classes.textField)}
+                variant="outlined"
+                size="small"
+              >
+                <InputLabel htmlFor="outlined-adornment-password">
+                  Password
+                </InputLabel>
+                <OutlinedInput
+                  id="outlined-adornment-password"
+                  type={this.state.showPassword ? "text" : "password"}
+                  value={this.state.password}
+                  onChange={this.handleChange("password")}
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={this.handleClickShowPassword}
+                        onMouseDown={this.handleMouseDownPassword}
+                        edge="end"
+                      >
+                        {this.state.showPassword ? (
+                          <Visibility />
+                        ) : (
+                          <VisibilityOff />
+                        )}
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                  labelWidth={70}
+                />
+              </FormControl>
+              {this.state.password === " " ? (
+                <FormHelperText
+                  style={{ color: "red" }}
+                  id="outlined-weight-helper-text"
                 >
-                  {this.state.showPassword ? <Visibility /> : <VisibilityOff />}
-                </IconButton>
-              </InputAdornment>
-            }
-            labelWidth={70}
-          />
-        </FormControl>
+                  Use 8 characters or more for your password
+                </FormHelperText>
+              ) : null}
             </Grid>
-            
+
             <Grid item xs={12} sm={6}>
-              <FormControl className={clsx(classes.margin, classes.textField)} variant="outlined" size="small">
-          <InputLabel htmlFor="outlined-adornment-password">Confirm</InputLabel>
-          <OutlinedInput
-            id="outlined-adornment-password"
-            type={this.state.showPassword ? 'text' : 'password'}
-            value={this.state.confirmPw}
-            onChange={this.handleChange('confirmPw')}
-            endAdornment={
-              <InputAdornment position="end">
-                <IconButton
-                  aria-label="toggle password visibility"
-                  onClick={this.handleClickShowPassword}
-                  onMouseDown={this.handleMouseDownPassword}
-                  edge="end"
+              <FormControl
+                className={clsx(classes.margin, classes.textField)}
+                variant="outlined"
+                size="small"
+              >
+                <InputLabel htmlFor="outlined-adornment-password">
+                  Confirm
+                </InputLabel>
+                <OutlinedInput
+                  id="outlined-adornment-password"
+                  type={this.state.showPassword ? "text" : "password"}
+                  value={this.state.confirmPw}
+                  onChange={this.handleChange("confirmPw")}
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={this.handleClickShowPassword}
+                        onMouseDown={this.handleMouseDownPassword}
+                        edge="end"
+                      >
+                        {this.state.showPassword ? (
+                          <Visibility />
+                        ) : (
+                          <VisibilityOff />
+                        )}
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                  labelWidth={70}
+                />
+              </FormControl>
+              {this.state.confirmPw === " " ? (
+                <FormHelperText
+                  style={{ color: "red" }}
+                  id="outlined-weight-helper-text"
                 >
-                  {this.state.showPassword ? <Visibility /> : <VisibilityOff />}
-                </IconButton>
-              </InputAdornment>
-            }
-            labelWidth={70}
-          />
-        </FormControl>
+                  Those password didn't match try again
+                </FormHelperText>
+              ) : null}
             </Grid>
-            <FormHelperText id="outlined-weight-helper-text">
-              Use 8 or more characters with a mix of letters, numbers & symbols
-            </FormHelperText>
+              {this.state.confirmPw === " " || this.state.confirmPw === " " ? (
+                <FormHelperText
+                  id="outlined-weight-helper-text"
+                >
+                  Use 8 or more characters with a mix of letters, numbers & symbols
+                </FormHelperText>
+              ) : null}
+
           </Grid>
 
           <div className={classes.lastdiv}>
@@ -240,6 +335,7 @@ class customer extends Component {
               variant="contained"
               color="primary"
               href="#contained-buttons"
+              onClick={this.handleSubmit}
             >
               Next
             </Button>
