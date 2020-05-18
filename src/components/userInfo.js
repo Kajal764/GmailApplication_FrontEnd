@@ -22,8 +22,7 @@ const styles = (theme) => ({
 
   textField: {
     width: "100%",
-    
-    
+ 
   },
  
   usernameMsg: {
@@ -41,13 +40,7 @@ const styles = (theme) => ({
 
 });
 
-const errors = {
-  firstName: "",
-  lastName: "",
-  emailId: "",
-  password: "",
-  confirmPw: "",
-};
+
 
 class customer extends Component {
   state = {
@@ -57,12 +50,13 @@ class customer extends Component {
     emailStatus: false,
     emailhelpertext: "You can use letters,numbers and periods",
     staticText: "@gmail.com",
-
-    firstName: errors.firstName,
-    lastName: errors.lastName,
-    emailId: errors.emailId,
-    password: errors.password,
-    confirmPw: errors.confirmPw,
+    validate:true,
+    firstName: "",
+    lastName: "",
+    emailId: "",
+    password: "",
+    confirmPw: "",
+    count:0,
     showPassword: false,
   };
 
@@ -109,27 +103,42 @@ class customer extends Component {
 
   updateState = (event) => {
     this.setState({ [event.target.name]: event.target.value });
+  
   };
 
-  validateinfo = (event) => {
+  validateinfo = ()=> {
     const regexp = /[A-Za-z]{3,20}$/;
+    const regexp1 = /[A-Za-z0-9]{6,30}$/;
+   
     if (!regexp.test(this.state.firstName)) {
-      this.setState({ firstName: " " });
-    }
+      this.setState({ firstName: " ",validate:false });
+      console.log(this.state.validate)
+      }
     if (!regexp.test(this.state.lastName)) {
-      this.setState({ lastName: " " });
+      this.setState({ lastName: " ", validate:false});
+      console.log(this.state.validate)
     }
-    if (this.state.emailId.length < 6 || this.state.emailId.length > 30) {
-      this.setState({ emailId: " " });
+    if (!regexp1.test(this.state.emailId)) {
+      this.setState({emailId: " ",validate:false});
     }
     if (this.state.password.length < 8) {
-      this.setState({ password: " " })}
+      this.setState({ password: null,validate:false })}
     if(this.state.password.length >= 8 && (this.state.password !== this.state.confirmPw))
-      {this.setState({confirmPw:" "})}
+      {this.setState({confirmPw:null,validate:false})}
+
+        return this.state.validate;
+
   };
 
   handleSubmit = (event) => {
-    this.validateinfo(event);
+    const userData={
+      firstName:this.state.firstName,
+      lastName:this.state.lastName,
+      emailId:this.state.emailId,
+      password:this.state.password
+    }
+    
+     this.validateinfo()?this.props.userDetails(userData):this.props.userDetails()
   };
 
   render() {
@@ -153,8 +162,8 @@ class customer extends Component {
                 name="firstName"
                 variant="outlined"
                 size="small"
-                onChange={this.updateState}
-               
+                margin="normal"
+                onChange={this.updateState} 
               />
               {this.state.firstName === " " ? (
                 <FormHelperText
@@ -176,6 +185,7 @@ class customer extends Component {
                 variant="outlined"
                 size="small"
                 onChange={this.updateState}
+                margin="normal"
               />
               {this.state.lastName === " " ? (
                 <FormHelperText
@@ -187,30 +197,24 @@ class customer extends Component {
               ) : null}
             </Grid>
 
-            <Grid item xs={12}>
-              <FormControl
-                className={clsx(classes.margin, classes.textField)}
-                variant="outlined"
-                size="small"
-                margin="normal"
-                name="emailId"
-                value={this.state.emailId}
-                onChange={this.updateState}
-              >
-                <InputLabel>{this.state.username}</InputLabel>
-                <OutlinedInput
-                  endAdornment={
-                    <InputAdornment position="end">
-                      {this.state.staticText}
-                    </InputAdornment>
-                  }
-                  aria-describedby="outlined-weight-helper-text"
-                  inputProps={{
-                    "aria-label": "weight",
-                  }}
-                  labelWidth={this.state.emaillabelWidth}
-                />
-                {this.state.emailId === " " ? (
+          <Grid item xs={12}>
+          <FormControl className={clsx(classes.margin, classes.textField)} 
+          variant="outlined" size="small" margin="normal">
+          <InputLabel htmlFor="outlined-adornment-emailid">
+                  {this.state.username}
+                </InputLabel>
+          <OutlinedInput
+            id="outlined-adornment-weight"
+            value={this.state.emailId}
+            onChange={this.handleChange('emailId')}
+          endAdornment={<InputAdornment position="end">{this.state.staticText}</InputAdornment>}
+            aria-describedby="outlined-weight-helper-text"
+            inputProps={{
+              'aria-label':  'emailId'
+            }}
+            labelWidth={this.state.emaillabelWidth}
+          />
+           {this.state.emailId === " " ? (
                   <FormHelperText
                     style={{ color: "red" }}
                     id="outlined-weight-helper-text"
@@ -219,10 +223,9 @@ class customer extends Component {
                     long
                   </FormHelperText>
                 ) : null}
-                <FormHelperText id="outlined-weight-helper-text">
-                  {this.state.emailhelpertext}
-                </FormHelperText>
-              </FormControl>
+          <FormHelperText id="outlined-weight-helper-text"> {this.state.emailhelpertext}</FormHelperText>
+        </FormControl>
+       
             </Grid>
 
             <view
@@ -266,7 +269,7 @@ class customer extends Component {
                   labelWidth={70}
                 />
               </FormControl>
-              {this.state.password === " " ? (
+              {this.state.password === null ? (
                 <FormHelperText
                   style={{ color: "red" }}
                   id="outlined-weight-helper-text"
@@ -309,7 +312,7 @@ class customer extends Component {
                   labelWidth={70}
                 />
               </FormControl>
-              {this.state.confirmPw === " " ? (
+              {this.state.confirmPw === null ? (
                 <FormHelperText
                   style={{ color: "red" }}
                   id="outlined-weight-helper-text"

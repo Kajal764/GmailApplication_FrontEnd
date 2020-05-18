@@ -6,8 +6,6 @@ import Account from "../images/account.svg";
 import FormHelperText from '@material-ui/core/FormHelperText';
 import '../css/createAccount.css';
 
-
-
 const useStyles = (theme) => ({
   root: {
     border: "1px solid lightgrey",
@@ -17,7 +15,6 @@ const useStyles = (theme) => ({
     float:"left",
     padding :"4%",
     display:"flex",
-   
     flex_direction: "column",
     width:"50%",
     height:"100%",
@@ -41,7 +38,21 @@ const useStyles = (theme) => ({
 });
 
 
+
  class createAccount extends Component {
+   constructor(props) {
+     super(props)
+   
+     this.state = {
+      userDetails:[]
+     }
+   }
+
+   userDetails = async data => {
+    await this.setState({ userDetails: data });
+    console.log(this.state.userDetails);
+    
+  };
    
      render() {
     
@@ -51,7 +62,7 @@ const useStyles = (theme) => ({
               <div className={classes.firstblock}>
                <img  className={classes.logo} src={Logo} alt="GoogleImage" /><br/>
                <view className="firstText">Create your Google Account</view><br/>
-                <UserInfo/>
+                <UserInfo userDetails={this.userDetails}/>
                 </div>
                 <div className="secondblock">
                 <img src={Account} alt="imageAccount" />

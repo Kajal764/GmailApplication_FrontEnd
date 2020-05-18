@@ -1,13 +1,12 @@
 import React from 'react';
 import './App.css';
 import './css/createAccount.css';
-import CreateAccount from './components/createAccount'
+import LoginPage from './components/LoginPage'
 
 function App() {
   return (
     <div>
-       <CreateAccount/>
-   
+        <LoginPage/>
     </div>
   );
 }
