@@ -61,7 +61,7 @@ const useStyles = (theme) => ({
             <div className={classes.root}>
               <div className={classes.firstblock}>
                <img  className={classes.logo} src={Logo} alt="GoogleImage" /><br/>
-               <view className="registerpgfirstText">Create your Google Account</view><br/>
+               <p className="registerpgfirstText">Create your Google Account</p><br/>
                 <UserInfo userDetails={this.userDetails}/>
                 </div>
                 <div className="secondblock">

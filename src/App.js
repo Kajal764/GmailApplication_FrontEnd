@@ -3,7 +3,7 @@ import './App.css';
 import './css/createAccount.css';
 import LoginPage from './components/LoginPage';
 import CreateAccount from './components/createAccount';
-import { BrowserRouter, Switch, Route } from 'react-router-dom'
+import {  Switch, Route } from 'react-router-dom'
 
 function  App() {
   return (

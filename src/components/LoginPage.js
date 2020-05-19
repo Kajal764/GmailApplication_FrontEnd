@@ -91,8 +91,8 @@ const useStyles = (theme) => ({
               <div className="dropdown">
                 <button onClick={this.myFunction} className="dropbtn"><span className="dropdownbtn">Create account</span></button>
                   <div id="myDropdown" className="dropdown-content">
-                   <a onClick={this.goToRegisterPage}> For myself</a>
-                    <a onClick={this.goToRegisterPage}>To manage my bussiness</a>
+                   <p onClick={this.goToRegisterPage}> For myself</p>
+                    <p onClick={this.goToRegisterPage}>To manage my bussiness</p>
     
                   </div>
               </div>

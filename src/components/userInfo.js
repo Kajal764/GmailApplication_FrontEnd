@@ -30,6 +30,7 @@ const styles = (theme) => ({
     color: "blue",
     marginBottom: "7%",
     fontWeight: "500",
+    float:"left"
   },
   nextButton: {
     float: "right",
@@ -53,8 +54,8 @@ class customer extends Component {
     firstName: "",
     lastName: "",
     emailId: "",
-    password: "",
-    confirmPw: "",
+    password:null,
+    confirmPw:null,
     count:0,
     showPassword: false,
   };
@@ -105,31 +106,32 @@ class customer extends Component {
   
   };
 
-  validateinfo = ()=> {
+  validateinfo =async ()=> {
     const regexp = /[A-Za-z]{3,20}$/;
     const regexp1 = /[A-Za-z0-9]{6,30}$/;
+    const regexPassword=/[A-Za-z0-9@#$%^&*]{8,20}$/
    
     if (!regexp.test(this.state.firstName)) {
-      this.setState({ firstName: " ",validate:false });
+      await this.setState({ firstName: " ",validate:false });
       console.log(this.state.validate)
       }
     if (!regexp.test(this.state.lastName)) {
-      this.setState({ lastName: " ", validate:false});
+      await this.setState({ lastName: " ", validate:false});
       console.log(this.state.validate)
     }
     if (!regexp1.test(this.state.emailId)) {
-      this.setState({emailId: " ",validate:false});
+      await this.setState({emailId: " ",validate:false});
     }
-    if (this.state.password.length < 8) {
-      this.setState({ password: null,validate:false })}
-    if(this.state.password.length >= 8 && (this.state.password !== this.state.confirmPw))
-      {this.setState({confirmPw:null,validate:false})}
+    if ( !regexPassword.test(this.state.password)) {
+       await this.setState({ password: "" ,validate:false })}
+    if( this.state.password !== this.state.confirmPw)
+      { await this.setState({confirmPw: "" ,validate:false})}
 
         return this.state.validate;
 
   };
 
-  handleSubmit = (event) => {
+  handleSubmit =async (event) => {
     const userData={
       firstName:this.state.firstName,
       lastName:this.state.lastName,
@@ -137,7 +139,7 @@ class customer extends Component {
       password:this.state.password
     }
     
-     this.validateinfo()?this.props.userDetails(userData):this.props.userDetails()
+     await this.validateinfo()?this.props.userDetails(userData):this.props.userDetails()
   };
 
   goToLoginPage = () => {
@@ -231,12 +233,12 @@ class customer extends Component {
        
             </Grid>
 
-            <view
+            <p
               className={classes.usernameMsg}
               onClick={this.changeUsernameLabel}
             >
               {this.state.usernameMsg}
-            </view>
+            </p>
 
             <br />
             <Grid item xs={12} sm={6}>
@@ -272,7 +274,7 @@ class customer extends Component {
                   labelWidth={70}
                 />
               </FormControl>
-              {this.state.password === null ? (
+              {this.state.password === "" ? (
                 <FormHelperText
                   style={{ color: "red" }}
                   id="outlined-weight-helper-text"
@@ -292,7 +294,7 @@ class customer extends Component {
                   Confirm
                 </InputLabel>
                 <OutlinedInput
-                  id="outlined-adornment-password"
+                 
                   type={this.state.showPassword ? "text" : "password"}
                   value={this.state.confirmPw}
                   onChange={this.handleChange("confirmPw")}
@@ -315,7 +317,7 @@ class customer extends Component {
                   labelWidth={70}
                 />
               </FormControl>
-              {this.state.confirmPw === null ? (
+              {this.state.confirmPw === "" ? (
                 <FormHelperText
                   style={{ color: "red" }}
                   id="outlined-weight-helper-text"
@@ -335,7 +337,7 @@ class customer extends Component {
           </Grid>
 
           <div className={classes.lastdiv}>
-            <view className={classes.usernameMsg} onClick={this.goToLoginPage}>Sign in instead</view>
+            <div className={classes.usernameMsg} onClick={this.goToLoginPage}>Sign in instead</div>
             <Button
               className={classes.nextButton}
               variant="contained"
