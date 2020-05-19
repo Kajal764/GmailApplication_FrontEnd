@@ -1,14 +1,27 @@
 import React from 'react';
 import './App.css';
 import './css/createAccount.css';
-import LoginPage from './components/LoginPage'
+import LoginPage from './components/LoginPage';
+import CreateAccount from './components/createAccount';
+import { BrowserRouter, Switch, Route } from 'react-router-dom'
 
-function App() {
+function  App() {
   return (
     <div>
-        <LoginPage/>
+      
+    
+        <Switch>
+        {/*    */}
+          <Route path={"/"} exact component={LoginPage} />
+          <Route path={"/createaccount"} exact component={CreateAccount} /> 
+        </Switch>
+      
+
+
     </div>
   );
 }
 
 export default App;
+
+

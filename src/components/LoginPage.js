@@ -4,6 +4,8 @@ import Logo from "../images/Googlelogo.png";
 import '../css/login.css'
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+import history from '../history'
+
 
 const useStyles = (theme) => ({
     textField: {
@@ -52,14 +54,15 @@ const useStyles = (theme) => ({
 
    updateState=(event)=>{
     this.setState({[event.target.name]:event.target.value})
-    console.log(event.target.value)
    }
    
   myFunction = () =>{
-    console.log("hello");
     document.getElementById("myDropdown").classList.toggle("show");
   }
 
+  goToRegisterPage= () =>{
+    history.push('createaccount')
+  }
 
 
      render() {
@@ -88,8 +91,8 @@ const useStyles = (theme) => ({
               <div className="dropdown">
                 <button onClick={this.myFunction} className="dropbtn"><span className="dropdownbtn">Create account</span></button>
                   <div id="myDropdown" className="dropdown-content">
-                    <a href="<CreateAccount/>">For myself</a>
-                    <a href="#about">To manage my bussiness</a>
+                   <a onClick={this.goToRegisterPage}> For myself</a>
+                    <a onClick={this.goToRegisterPage}>To manage my bussiness</a>
     
                   </div>
               </div>

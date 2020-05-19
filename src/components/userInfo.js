@@ -12,6 +12,7 @@ import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
+import history from '../history'
 
 const styles = (theme) => ({
   root: {
@@ -36,8 +37,6 @@ const styles = (theme) => ({
   lastdiv: {
     marginTop: "10%",
   },
-
-
 });
 
 
@@ -140,6 +139,10 @@ class customer extends Component {
     
      this.validateinfo()?this.props.userDetails(userData):this.props.userDetails()
   };
+
+  goToLoginPage = () => {
+    history.push("/")
+  }
 
   render() {
     const { classes } = this.props;
@@ -332,7 +335,7 @@ class customer extends Component {
           </Grid>
 
           <div className={classes.lastdiv}>
-            <view className={classes.usernameMsg}>sign in instead</view>
+            <view className={classes.usernameMsg} onClick={this.goToLoginPage}>Sign in instead</view>
             <Button
               className={classes.nextButton}
               variant="contained"
