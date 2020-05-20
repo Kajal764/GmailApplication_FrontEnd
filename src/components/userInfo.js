@@ -228,12 +228,23 @@ class customer extends Component {
                     long
                   </FormHelperText>
                 ) : null}
+
+            {this.props.emailHandleStatus === false ? (
+                  
+                  <FormHelperText
+                    style={{ color: "red" }}
+                    id="outlined-weight-helper-text"
+                  >
+                    That Username is taken, Try another
+                  </FormHelperText>
+                ) : null}
+                
+
           <FormHelperText id="outlined-weight-helper-text"> {this.state.emailhelpertext}</FormHelperText>
         </FormControl>
-       
-            </Grid>
+      </Grid>
 
-            <p
+           <p
               className={classes.usernameMsg}
               onClick={this.changeUsernameLabel}
             >
